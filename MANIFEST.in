@@ -1,3 +1,2 @@
 ## Include
-include COPYING COPYING.lesser NOTICE
 recursive-include tgcrypto *.c *.h
