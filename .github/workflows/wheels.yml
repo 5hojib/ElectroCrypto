@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v3
 
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel twine
+        run: python -m pip install cibuildwheel twine setuptools
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
@@ -43,7 +43,7 @@ jobs:
       - uses: actions/setup-python@v3
 
       - name: Install twine
-        run: python -m pip install twine
+        run: python -m pip install twine setuptools
 
       - name: Build source distribution
         run: python setup.py sdist
