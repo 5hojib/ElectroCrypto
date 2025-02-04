@@ -5,7 +5,7 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name="ElectroCrypto",
-    version="1.1.0",
+    version="1.0.2dev",
     description="Fast and Portable Cryptography Extension Library for Electrogram",
     long_description=readme,
     long_description_content_type="text/markdown",
