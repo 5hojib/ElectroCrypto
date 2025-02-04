@@ -1,13 +1,10 @@
 from setuptools import setup, Extension, find_packages
 
-with open("README.md", encoding="utf-8") as f:
-    readme = f.read()
-
 setup(
     name="ElectroCrypto",
-    version="1.0.2dev2",
+    version="1.0.2dev3",
     description="Fast and Portable Cryptography Extension Library for Electrogram",
-    long_description=readme,
+    long_description="Hello",
     long_description_content_type="text/markdown",
     url="https://github.com/5hojib",
     download_url="https://github.com/5hojib/ElectroCrypto/releases/latest",
