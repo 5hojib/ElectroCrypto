@@ -27,12 +27,6 @@ jobs:
           CIBW_TEST_SKIP: "*-win*"
           CIBW_BUILD_VERBOSITY: 1
 
-      - name: Upload wheels as artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: wheels
-          path: wheelhouse/*.whl
-
       - name: Release to PyPI
         run: python -m twine upload wheelhouse/*.whl
         env:
@@ -41,7 +35,7 @@ jobs:
 
   build_arm_wheels:
     name: Build ARM64 wheels
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -66,12 +60,6 @@ jobs:
           CIBW_TEST_COMMAND: cd {project} && tox
           CIBW_BUILD_VERBOSITY: 1
 
-      - name: Upload ARM64 wheels as artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: arm64-wheels
-          path: wheelhouse/*.whl
-
       - name: Release ARM64 wheels to PyPI
         run: python -m twine upload wheelhouse/*.whl
         env:
@@ -80,7 +68,7 @@ jobs:
 
   build_source:
     name: Build source distribution
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -91,12 +79,6 @@ jobs:
 
       - name: Build source distribution
         run: python setup.py sdist
-
-      - name: Upload source distribution
-        uses: actions/upload-artifact@v3
-        with:
-          name: source-dist
-          path: dist/*.tar.gz
 
       - name: Release source distribution to PyPI
         run: python -m twine upload dist/*.tar.gz
