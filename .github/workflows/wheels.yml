@@ -19,20 +19,25 @@ jobs:
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel twine setuptools
 
+      - name: Install cross-compiler toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse --platform linux
         env:
           CIBW_TEST_REQUIRES: tox
           CIBW_TEST_COMMAND: cd {project} && tox
-          CIBW_BUILD_VERBOSITY: 1
-          CIBW_ARCHS: aarch64  # Build for ARM64
+          CIBW_BUILD_VERBOSITY: 3
+          CIBW_ARCHS_LINUX: aarch64
+          CIBW_ENVIRONMENT: 'CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++'
 
       - name: Release to PyPI
         run: python -m twine upload wheelhouse/*.whl
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-
   build_source:
     name: Build source distribution
     runs-on: ubuntu-24.04
