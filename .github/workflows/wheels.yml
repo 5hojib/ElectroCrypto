@@ -51,9 +51,9 @@ jobs:
             -w /project \
             quay.io/pypa/manylinux2014_aarch64 \
             /bin/bash -c "
-              curl -sS https://bootstrap.pypa.io/get-pip.py | python &&
-              python -m pip install --upgrade pip setuptools twine cibuildwheel &&
-              python -m cibuildwheel --output-dir wheelhouse
+              /opt/python/cp312-cp312/bin/python -m ensurepip &&
+              /opt/python/cp312-cp312/bin/python -m pip install --upgrade pip setuptools twine cibuildwheel &&
+              /opt/python/cp312-cp312/bin/python -m cibuildwheel --output-dir wheelhouse
             "
         env:
           CIBW_ARCHS_LINUX: "aarch64"
