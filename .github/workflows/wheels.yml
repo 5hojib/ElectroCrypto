@@ -4,70 +4,30 @@ on: [push]
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Build wheels
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v3
 
+      # Set up QEMU for ARM64 emulation
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel twine setuptools
 
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse
+        run: python -m cibuildwheel --output-dir wheelhouse --platform linux
         env:
-          CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
           CIBW_TEST_REQUIRES: tox
           CIBW_TEST_COMMAND: cd {project} && tox
-          CIBW_TEST_SKIP: "*-win*"
           CIBW_BUILD_VERBOSITY: 1
+          CIBW_ARCHS: aarch64  # Build for ARM64
 
       - name: Release to PyPI
-        run: python -m twine upload wheelhouse/*.whl
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-
-  build_arm_wheels:
-    name: Build ARM64 wheels
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Docker
-        run: |
-          sudo apt update
-          sudo apt install -y docker.io
-          sudo systemctl start docker
-          sudo systemctl enable docker
-
-      - name: Install QEMU for ARM64 emulation
-        run: |
-          sudo apt install -y qemu-user-static
-
-      - name: Build ARM64 wheels using manylinux
-        run: |
-          docker run --rm --platform linux/arm64 \
-            -v $(pwd):/project \
-            -w /project \
-            quay.io/pypa/manylinux2014_aarch64 \
-            /bin/bash -c "
-              /opt/python/cp312-cp312/bin/python -m ensurepip &&
-              /opt/python/cp312-cp312/bin/python -m pip install --upgrade pip setuptools twine cibuildwheel &&
-              /opt/python/cp312-cp312/bin/python -m cibuildwheel --output-dir wheelhouse
-            "
-        env:
-          CIBW_ARCHS_LINUX: "aarch64"
-          CIBW_TEST_REQUIRES: tox
-          CIBW_TEST_COMMAND: cd {project} && tox
-          CIBW_BUILD_VERBOSITY: 1
-
-      - name: Release ARM64 wheels to PyPI
         run: python -m twine upload wheelhouse/*.whl
         env:
           TWINE_USERNAME: __token__
