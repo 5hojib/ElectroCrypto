@@ -2,7 +2,7 @@ from setuptools import setup, Extension, find_packages
 
 setup(
     name="ElectroCrypto",
-    version="1.0.2dev3",
+    version="1.0.2dev4",
     description="Fast and Portable Cryptography Extension Library for Electrogram",
     long_description="Hello",
     long_description_content_type="text/markdown",
