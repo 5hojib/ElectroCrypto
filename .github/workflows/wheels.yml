@@ -51,7 +51,7 @@ jobs:
             -w /project \
             quay.io/pypa/manylinux2014_aarch64 \
             /bin/bash -c "
-              python -m ensurepip --default-pip &&
+              curl -sS https://bootstrap.pypa.io/get-pip.py | python &&
               python -m pip install --upgrade pip setuptools twine cibuildwheel &&
               python -m cibuildwheel --output-dir wheelhouse
             "
