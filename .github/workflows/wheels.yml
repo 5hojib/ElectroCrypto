@@ -39,9 +39,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install QEMU for ARM64 emulation
+      - name: Install Docker
         run: |
           sudo apt update
+          sudo apt install -y docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+
+      - name: Install QEMU for ARM64 emulation
+        run: |
           sudo apt install -y qemu-user-static
 
       - name: Build ARM64 wheels using manylinux
