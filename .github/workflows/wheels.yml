@@ -21,13 +21,14 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
+          CIBW_ARCHS_LINUX: "x86_64 aarch64"
           CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
           CIBW_TEST_REQUIRES: tox
           CIBW_TEST_COMMAND: cd {project} && tox
           CIBW_TEST_SKIP: "*-win*"
           CIBW_BUILD_VERBOSITY: 1
 
-      - name: Release to pypi
+      - name: Release to PyPI
         run: python -m twine upload wheelhouse/*.whl
         env:
           TWINE_USERNAME: __token__
@@ -48,7 +49,7 @@ jobs:
       - name: Build source distribution
         run: python setup.py sdist
 
-      - name: Release to pypi
+      - name: Release to PyPI
         run: python -m twine upload dist/*.tar.gz
         env:
           TWINE_USERNAME: __token__
