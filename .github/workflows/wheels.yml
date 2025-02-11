@@ -1,46 +1,42 @@
-name: Build and Release Wheels
+name: Build wheels
 
 on: [push]
 
 jobs:
   build_wheels:
-    name: Build wheels
-    runs-on: ubuntu-latest
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v3
 
-      # Set up QEMU for ARM64 emulation
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel twine setuptools
 
-      - name: Install cross-compiler toolchain
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
-
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse --platform linux
+        run: python -m cibuildwheel --output-dir wheelhouse
         env:
+          CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
           CIBW_TEST_REQUIRES: tox
           CIBW_TEST_COMMAND: cd {project} && tox
-          CIBW_BUILD_VERBOSITY: 3
-          CIBW_ARCHS_LINUX: aarch64
-          CIBW_ENVIRONMENT: 'CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++'
+          CIBW_TEST_SKIP: "*-win*"
+          CIBW_BUILD_VERBOSITY: 1
 
-      - name: Release to PyPI
+      - name: Release to pypi
         run: python -m twine upload wheelhouse/*.whl
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+
   build_source:
     name: Build source distribution
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -52,7 +48,7 @@ jobs:
       - name: Build source distribution
         run: python setup.py sdist
 
-      - name: Release source distribution to PyPI
+      - name: Release to pypi
         run: python -m twine upload dist/*.tar.gz
         env:
           TWINE_USERNAME: __token__
