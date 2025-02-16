@@ -40,15 +40,15 @@ classifiers = [
 
 [tool.setuptools]
 packages = ["tgcrypto"]
-
-[tool.setuptools.extension]
-tgcrypto = { sources = [
+ext-modules = [
+  {name = "tgcrypto", sources = [
     "tgcrypto/tgcrypto.c",
     "tgcrypto/aes256.c",
     "tgcrypto/ige256.c",
     "tgcrypto/ctr256.c",
     "tgcrypto/cbc256.c"
 ]}
+]
 
 [tool.cibuildwheel]
 enable = ["cpython-freethreading"]
