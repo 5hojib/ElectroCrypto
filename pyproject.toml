@@ -12,10 +12,6 @@ license = { text = "LGPLv3+" }
 authors = [
     { name = "5hojib", email = "yesiamshojib@gmail.com" }
 ]
-urls = {
-    Homepage = "https://github.com/5hojib",
-    Download = "https://github.com/5hojib/ElectroCrypto/releases/latest"
-}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
