@@ -12,7 +12,7 @@ license = { text = "LGPLv3+" }
 authors = [
     { name = "5hojib", email = "yesiamshojib@gmail.com" }
 ]
-urls = { 
+urls = {
     Homepage = "https://github.com/5hojib",
     Download = "https://github.com/5hojib/ElectroCrypto/releases/latest"
 }
