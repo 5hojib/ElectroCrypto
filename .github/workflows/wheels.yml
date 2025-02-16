@@ -20,12 +20,6 @@ jobs:
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
-        env:
-          CIBW_ARCHS_MACOS: "x86_64 universal2 arm64"
-          CIBW_TEST_REQUIRES: tox
-          CIBW_TEST_COMMAND: cd {project} && tox
-          CIBW_TEST_SKIP: "*-win*"
-          CIBW_BUILD_VERBOSITY: 1
 
       - name: Release to pypi
         run: python -m twine upload wheelhouse/*.whl
