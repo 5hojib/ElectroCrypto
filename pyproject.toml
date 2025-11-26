@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ElectroCrypto"
-version = "2.0.2dev"
+version = "2.0.2"
 description = "Fast and Portable Cryptography Extension Library for Electrogram"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -26,6 +26,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Programming Language :: Python :: Implementation",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
