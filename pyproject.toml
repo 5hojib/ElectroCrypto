@@ -45,6 +45,7 @@ ext-modules = [
   {name = "tgcrypto", sources = [
     "tgcrypto/tgcrypto.c",
     "tgcrypto/aes256.c",
+    "tgcrypto/aes256_ni.c",
     "tgcrypto/ige256.c",
     "tgcrypto/ctr256.c",
     "tgcrypto/cbc256.c"
